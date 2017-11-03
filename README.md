@@ -40,7 +40,7 @@ Where *SAVE_PATH* is replaced by the (relative or absolute) file path to the
 location where you saved the tar-ball, and *VERSION* is replaced with the correct
 version number for the tar-ball that you downloaded.
 
-[builds]:  https://github.com/kylelang/SURF/tree/develop/builds/
-[docs]:    https://github.com/kylelang/SURF/tree/develop/documentation/
-[src]:     https://github.com/kylelang/SURF/tree/develop/source/SURF
-[LICENSE]: https://github.com/kylelang/SURF/blob/develop/LICENSE
+[builds]:  https://github.com/kylelang/SURF/tree/master/builds/
+[docs]:    https://github.com/kylelang/SURF/tree/master/documentation/
+[src]:     https://github.com/kylelang/SURF/tree/master/source/SURF
+[LICENSE]: https://github.com/kylelang/SURF/blob/master/LICENSE
