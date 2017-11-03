@@ -30,9 +30,9 @@ missData <- imposeMissData(data     = testData,
                                            mcar = c("x2", "x3"),
                                            mnar = c("x4", "x5")
                                            ),
-                            preds   = c("x8", "x9", "x10"),
-                            pm      = list(mar = 0.2, mcar = 0.1, mnar = 0.1),
-                            snr     = list(mar = 5, mnar = 2.5),
+                           preds   = c("x8", "x9", "x10"),
+                           pm      = list(mar = 0.2, mcar = 0.1, mnar = 0.1),
+                           snr     = list(mar = 5, mnar = 2.5),
                            pattern = "random")
 
 missData$pattern

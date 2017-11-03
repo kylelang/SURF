@@ -28,7 +28,6 @@ plotImps <- function(impList, rMat, typeVec, targetVar = NULL, interactive = FAL
         if(catTarget)
             imps <- lapply(impList,
                            function(x, rMat, index)
-                                        #as.numeric(factor(x[rMat[ , index], index])),
                                x[rMat[ , index], index],
                                rMat  = rMat,
                            index = i)
