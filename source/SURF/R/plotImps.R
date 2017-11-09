@@ -1,7 +1,26 @@
 ### Title:    Create Imputation Diagnostic Plots
 ### Author:   Kyle M. Lang
 ### Created:  2015-OCT-02
-### Modified: 2017-NOV-03
+### Modified: 2017-NOV-09
+
+##--------------------- COPYRIGHT & LICENSING INFORMATION ---------------------##
+##  Copyright (C) 2017 Kyle M. Lang <k.m.lang@uvt.nl>                          ##  
+##                                                                             ##
+##  This file is part of SURF.                                                 ##
+##                                                                             ##
+##  This program is free software: you can redistribute it and/or modify it    ##
+##  under the terms of the GNU Lesser General Public License as published by   ##
+##  the Free Software Foundation, either version 3 of the License, or          ##
+##  (at you option) any later version.                                         ##
+##                                                                             ##
+##  This program is distributed in the hope that it will be useful, but        ##
+##  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
+##  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public    ##
+##  License for more details.                                                  ##
+##                                                                             ##
+##  You should have received a copy of the GNU Lesser General Public License   ##
+##  along with this program.  If not, see <http://www.gnu.org/licenses/>.      ##
+##-----------------------------------------------------------------------------##
 
 plotImps <- function(impList, rMat, typeVec, targetVar = NULL, interactive = FALSE)
 {
