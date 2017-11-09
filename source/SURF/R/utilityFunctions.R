@@ -35,3 +35,22 @@ rangeNorm <- function(x,
 
     (x * r1 - min(x) * r1) / r0 + newMin
 }
+
+## Compute the mode:
+calcMode <- function(x) {
+    ## Find the modal value(s):
+    tab  <- table(x, exclude = NULL)
+    mode <- names(tab)[which.max(tab)]
+
+    ## Break ties randomly:
+    if(length(mode) > 1) mode <- mode[sample(c(1 : length(mode)), 1)]
+
+    ## Cast output as numeric, if possible:
+    if(is.numeric(x)) out <- as.numeric(mode)
+    else              out <- mode
+
+    out
+}
+
+## Safely convert a factor to a numeric vector:
+f2n <- function(x) as.numeric(as.character(x))

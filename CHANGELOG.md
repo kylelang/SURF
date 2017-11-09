@@ -7,7 +7,10 @@ The format is based on [Keep a Changelog][kacl], and this project adheres to
 ## 0.0.0.9001 - XXXX-XX-XX
 
 ### Added
-- new function: `rangeNorm`
+- new function `rangeNorm` and associated doc page
+- new function `calcMode` and associated doc page
+- new function `f2n` and associated doc page
+- doc file for `testImps.RData` example data
 
 ### Change
 - included licensing header in all source files
