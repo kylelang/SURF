@@ -4,6 +4,14 @@ All notable changes to the **SURF** project will be documented in this file.
 The format is based on [Keep a Changelog][kacl], and this project adheres to
 [Semantic Versioning][sv].
 
+## 0.0.0.9001 - XXXX-XX-XX
+
+### Added
+- new function: `rangeNorm`
+
+### Change
+- included licensing header in all source files
+
 ## 0.0.0.9000 - 2017-11-03
 
 ### Added
