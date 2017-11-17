@@ -34,3 +34,6 @@ vignettes/*.pdf
 
 # Auto-save files:
 *~
+
+# Cran check files:
+*.Rcheck

@@ -1,13 +1,14 @@
 ### Title:    Test the SURF Package
 ### Author:   Kyle M. Lang
 ### Created:  2017-NOV-03
-### Modified: 2017-NOV-03
+### Modified: 2017-NOV-17
 
 library(SURF)
 
-### Test Help Examples ###
+### TEST HELP EXAMPLES ###
 
-## simRegData:
+### simRegData ###
+
 testData <- simRegData(nObs   = 500,
                        nPreds = 10,
                        r2     = 0.5,
@@ -17,7 +18,8 @@ testData <- simRegData(nObs   = 500,
 
 summary(lm(testData[ , 1] ~ as.matrix(testData[ , -1])))
 
-## imposeMissData:
+### imposeMissData ###
+
 testData <- simRegData(nObs   = 500,
                        nPreds = 10,
                        r2     = 0.5,
@@ -38,10 +40,48 @@ missData <- imposeMissData(data     = testData,
 missData$pattern
 colMeans(is.na(missData$data))
 
-## plotImps:
+### plotImps ###
+
 data(testImps)
 
 plotImps(impList = testImps$impList,
          rMat    = testImps$rMat,
          typeVec = testImps$typeVec,
          interactive = TRUE)
+
+### f2n ###
+
+## Generate a factor:
+x1 <- factor(c(0 : 5))
+x1
+
+## Naive type-casting:
+as.numeric(x1)
+
+## Safe type-casting:
+f2n(x1)
+
+### calcMode ###
+
+## Find mode of an integer vector:
+x1 <- sample(c(1 : 5), 100, TRUE)
+calcMode(x1)
+
+## Find mode of a factor:
+x2 <- factor(sample(c(1 : 5), 100, TRUE))
+calcMode(x2)
+
+## Find mode of a character vector:
+x3 <- sample(letters[1 : 5], 100, TRUE)
+calcMode(x3)
+
+## Find the mode of a continuous variable:
+x4 <- rnorm(1000, 5, 2.5)
+calcMode(x4, discrete = FALSE)
+
+### rangeNorm ###
+
+x0 <- runif(100, -3, 5)
+x1 <- rangeNorm(x = x0)
+
+range(x1)

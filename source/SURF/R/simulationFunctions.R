@@ -1,7 +1,7 @@
 ### Title:    Data Simulation Functions for the SURF Package
 ### Author:   Kyle M. Lang
 ### Created:  2017-OCT-25
-### Modified: 2017-NOV-09
+### Modified: 2017-NOV-17
 
 ##--------------------- COPYRIGHT & LICENSING INFORMATION ---------------------##
 ##  Copyright (C) 2017 Kyle M. Lang <k.m.lang@uvt.nl>                          ##  
@@ -9,17 +9,17 @@
 ##  This file is part of SURF.                                                 ##
 ##                                                                             ##
 ##  This program is free software: you can redistribute it and/or modify it    ##
-##  under the terms of the GNU Lesser General Public License as published by   ##
-##  the Free Software Foundation, either version 3 of the License, or          ##
-##  (at you option) any later version.                                         ##
+##  under the terms of the GNU General Public License as published by the Free ##
+##  Software Foundation, either version 3 of the License, or (at you option)   ##
+##  any later version.                                                         ##
 ##                                                                             ##
 ##  This program is distributed in the hope that it will be useful, but        ##
 ##  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
 ##  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public    ##
 ##  License for more details.                                                  ##
 ##                                                                             ##
-##  You should have received a copy of the GNU Lesser General Public License   ##
-##  along with this program.  If not, see <http://www.gnu.org/licenses/>.      ##
+##  You should have received a copy of the GNU General Public License along    ##
+##  with this program.  If not, see <http://www.gnu.org/licenses/>.            ##
 ##-----------------------------------------------------------------------------##
 
 simRegData <- function(nObs,
@@ -138,7 +138,10 @@ imposeMissData <- function(data, targets, preds, pm, snr, pattern = "random") {
     ## Impose MAR missing:
     if(mechFlag["mar"]) {
         if(length(preds) == 1) linPred <- data[ , preds]
-        else                   linPred <- rowSums(data[ , preds])
+        else                   linPred <- rowSums(data[ , preds], na.rm = TRUE)
+        
+        if(any(is.na(linPred)))
+            stop("MAR predictor matrix cannot have any entirely missing rows.")
                                               
         for(i in targets$mar) {
             tmp <- makeRVec(linPred = linPred,
