@@ -4,7 +4,21 @@ All notable changes to the **SURF** project will be documented in this file.
 The format is based on [Keep a Changelog][kacl], and this project adheres to
 [Semantic Versioning][sv].
 
-## 0.0.0.9001 - XXXX-XX-XX
+## 0.0.0.9002 - XXXX-XX-XX
+
+### Added
+- `calcMode` now estimates the mode for continous variables when `discrete = 
+  FALSE`
+- Package startup message
+
+### Changed
+- When simulating MAR missing data with `imposeMissData` the linear predictor is 
+  now constructed using available cases
+
+    - Allows for incomplete MAR predictor matrices
+	- Throws an error if any rows are completely missing
+
+## 0.0.0.9001 - 2017-11-09
 
 ### Added
 - new function `rangeNorm` and associated doc page

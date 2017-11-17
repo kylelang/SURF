@@ -1,8 +1,8 @@
 Package: SURF
 Type: Package
 Title: Some Useful R Functions
-Version: 0.0.0.9001
-Date: 2017-11-09
+Version: 0.0.0.9002
+Date: 2017-11-17
 Author: Kyle M. Lang
 Maintainer: Kyle M. Lang <k.m.lang@uvt.nl>
 Description: These are several useful functions that I find myself using often (read: frequently re-implementing), so I will package them for easy access/dissemination.

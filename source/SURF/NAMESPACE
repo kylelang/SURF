@@ -1,1 +1,17 @@
-export(plotImps, simRegData, imposeMissData)
+export(plotImps,
+       simRegData,
+       imposeMissData,
+       calcMode,
+       rangeNorm,
+       f2n)
+
+importFrom("mvtnorm", "rmvnorm")
+importFrom("graphics", "barplot", "lines", "plot", "points")
+importFrom("stats",
+           "density",
+           "na.omit",
+           "pnorm",
+           "rbinom",
+           "rnorm",
+           "sd",
+           "var")

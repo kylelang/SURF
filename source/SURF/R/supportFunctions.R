@@ -1,6 +1,6 @@
-### Title:    Utility Functions for the SURF Package
+### Title:    Hidden support Functions for the SURF Package
 ### Author:   Kyle M. Lang
-### Created:  2017-NOV-09
+### Created:  2017-NOV-17
 ### Modified: 2017-NOV-17
 
 ##--------------------- COPYRIGHT & LICENSING INFORMATION ---------------------##
@@ -22,39 +22,28 @@
 ##  with this program.  If not, see <http://www.gnu.org/licenses/>.            ##
 ##-----------------------------------------------------------------------------##
 
-## Range normalize a vector:
-rangeNorm <- function(x,
-                      oldMin = min(x),
-                      oldMax = max(x),
-                      newMin = 0.0,
-                      newMax = 1.0)
-{
 
-    r0 <- oldMax - oldMin
-    r1 <- newMax - newMin
-
-    (x * r1 - min(x) * r1) / r0 + newMin
+## Print startup message:
+.onAttach <- function(libname, pkgname) {
+    version <- read.dcf(file   = system.file("DESCRIPTION", package = pkgname),
+                        fields = "Version")
+    
+    greet <-
+        strwrap(
+            paste0("Loading: ",
+                   pkgname,
+                   " ",
+                   version,
+                   ", Copyright (C) ",
+                   format(Sys.time(), "%Y"),
+                   " Kyle M. Lang. ",
+                   pkgname,
+                   " is distributed under Version 3 of the GNU General Public License (GPL-3); execute 'surfL()' for details. ",
+                   pkgname,
+                   " comes with ABSOLUTELY NO WARRANTY; execute 'surfW()' for details. ",
+                   pkgname,
+                   " is beta software. Please report any bugs."),
+            width = 81)
+    
+    for(i in greet) packageStartupMessage(i)
 }
-
-## Compute/estimate the mode:
-calcMode <- function(x, discrete = TRUE) {
-    if(discrete) {
-        ## Find the modal value(s):
-        tab  <- table(x, exclude = NULL)
-        mode <- names(tab)[which.max(tab)]
-        
-        ## Break ties randomly:
-        if(length(mode) > 1) mode <- mode[sample(c(1 : length(mode)), 1)]
-        
-        ## Cast output as numeric, if possible:
-        if(is.numeric(x)) out <- as.numeric(mode)
-        else              out <- mode
-    } else {
-        dens <- density(x, na.rm = TRUE)
-        out  <- dens$x[which.max(dens$y)]
-    }
-    out
-}
-
-## Safely convert a factor to a numeric vector:
-f2n <- function(x) as.numeric(as.character(x))
