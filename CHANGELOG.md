@@ -4,7 +4,15 @@ All notable changes to the **SURF** project will be documented in this file.
 The format is based on [Keep a Changelog][kacl], and this project adheres to
 [Semantic Versioning][sv].
 
-## 0.0.0.9002 - XXXX-XX-XX
+## 0.0.0.9003 - 2018-06-01 - ACTIVE
+
+### Changed
+- Changed the `collin` argument to `sigma` in `simRegData`.
+- Added the option to specify the entire covariance matrix of the predictors in 
+  `simRegData`.
+- Improved the implementations of the `surfL` and `surfW` functions.
+  
+## 0.0.0.9002 - 2017-11-17
 
 ### Added
 - `calcMode` now estimates the mode for continous variables when `discrete = 

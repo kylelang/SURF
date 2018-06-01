@@ -1,31 +1,31 @@
 ### Title:    Data Simulation Functions for the SURF Package
 ### Author:   Kyle M. Lang
 ### Created:  2017-OCT-25
-### Modified: 2017-NOV-17
+### Modified: 2018-JUN-01
 
-##--------------------- COPYRIGHT & LICENSING INFORMATION ---------------------##
-##  Copyright (C) 2017 Kyle M. Lang <k.m.lang@uvt.nl>                          ##  
-##                                                                             ##
-##  This file is part of SURF.                                                 ##
-##                                                                             ##
-##  This program is free software: you can redistribute it and/or modify it    ##
-##  under the terms of the GNU General Public License as published by the Free ##
-##  Software Foundation, either version 3 of the License, or (at you option)   ##
-##  any later version.                                                         ##
-##                                                                             ##
-##  This program is distributed in the hope that it will be useful, but        ##
-##  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
-##  or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public    ##
-##  License for more details.                                                  ##
-##                                                                             ##
-##  You should have received a copy of the GNU General Public License along    ##
-##  with this program.  If not, see <http://www.gnu.org/licenses/>.            ##
-##-----------------------------------------------------------------------------##
+##-------------------- COPYRIGHT & LICENSING INFORMATION ---------------------##
+##  Copyright (C) 2018 Kyle M. Lang <k.m.lang@uvt.nl>                         ##
+##                                                                            ##
+##  This file is part of SURF.                                                ##
+##                                                                            ##
+##  This program is free software: you can redistribute it and/or modify it   ##
+##  under the terms of the GNU General Public License as published by the     ##
+##  Free Software Foundation, either version 3 of the License, or (at you     ##
+##  option) any later version.                                                ##
+##                                                                            ##
+##  This program is distributed in the hope that it will be useful, but       ##
+##  WITHOUT ANY WARRANTY; without even the implied warranty of                ##
+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General ##
+##  Public License for more details.                                          ##
+##                                                                            ##
+##  You should have received a copy of the GNU General Public License along   ##
+##  with this program.  If not, see <http://www.gnu.org/licenses/>.           ##
+##----------------------------------------------------------------------------##
 
 simRegData <- function(nObs,
                        nPreds,
                        r2,
-                       collin,
+                       sigma,
                        beta,
                        means           = 0,
                        scales          = 1,
@@ -34,17 +34,24 @@ simRegData <- function(nObs,
 {
     if(length(means) == 1) means <- rep(means, nPreds)
 
-    ## Generate a covariance matrix from 'scales' and 'collin':
-    w1 <- matrix(scales, nPreds, nPreds)
-    w2 <- matrix(scales, nPreds, nPreds, byrow = TRUE)
     
-    maxCov <- w1 * w2
+    if(is.matrix(sigma))
+        sigmaX <- sigma
+    else if(is.vector(sigma) & length(sigma) == 1) {
+        ## Generate a covariance matrix from 'scales' and 'collin':
+        w1 <- matrix(scales, nPreds, nPreds)
+        w2 <- matrix(scales, nPreds, nPreds, byrow = TRUE)
+        
+        maxCov <- w1 * w2
+        
+        sigmaX       <- maxCov * sigma
+        diag(sigmaX) <- scales^2
+    }
+    else
+        stop("'sigma' must be a matrix or a length-one vector")
     
-    sigma       <- maxCov * collin
-    diag(sigma) <- scales^2
-
     ## Simulate predictor data:
-    X <- cbind(1, rmvnorm(nObs, means, sigma))
+    X <- cbind(1, rmvnorm(nObs, means, sigmaX))
 
     ## Simulate the outcome:
     eta    <- X %*% beta
@@ -73,7 +80,8 @@ simRegData <- function(nObs,
         
         outDat           <- data.frame(y, X)
         colnames(outDat) <- c("y", paste0("x", c(1 : nItems)))
-    } else {
+    }
+    else {
         outDat           <- data.frame(y, X[ , -1])
         colnames(outDat) <- c("y", paste0("x", c(1 : nPreds)))
     }
