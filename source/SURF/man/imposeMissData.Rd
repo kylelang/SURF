@@ -93,7 +93,7 @@ imposeMissData(data,
 testData <- simRegData(nObs   = 100,
                        nPreds = 10,
                        r2     = 0.5,
-                       collin = 0.2,
+                       sigma  = 0.2,
                        beta   = matrix(c(0.25, rep(0.75, 10)))
                        )
 

@@ -1,7 +1,7 @@
 ### Title:    Test the SURF Package
 ### Author:   Kyle M. Lang
 ### Created:  2017-NOV-03
-### Modified: 2017-NOV-17
+### Modified: 2018-JUN-01
 
 library(SURF)
 
@@ -9,14 +9,28 @@ library(SURF)
 
 ### simRegData ###
 
-testData <- simRegData(nObs   = 500,
+testData <- simRegData(nObs   = 50000,
                        nPreds = 10,
                        r2     = 0.5,
-                       collin = 0.2,
+                       sigma  = 0.2,
                        beta   = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 summary(lm(testData[ , 1] ~ as.matrix(testData[ , -1])))
+cor(testData[ , -1])
+
+sigma       <- matrix(0.35, 10, 10)
+diag(sigma) <- 1.0
+
+testData <- simRegData(nObs   = 50000,
+                       nPreds = 10,
+                       r2     = 0.5,
+                       sigma  = sigma,
+                       beta   = matrix(c(0.25, rep(0.75, 10)))
+                       )
+
+summary(lm(testData[ , 1] ~ as.matrix(testData[ , -1])))
+cor(testData[ , -1])
 
 ### imposeMissData ###
 

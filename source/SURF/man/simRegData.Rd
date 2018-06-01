@@ -10,7 +10,7 @@
 simRegData(nObs,
            nPreds,
            r2,
-           collin,
+           sigma,
            beta,
            means           = 0.0,
            scales          = 1.0,
@@ -30,9 +30,11 @@ simRegData(nObs,
     is, what proportion of variability in the outcome should be explained by the
     predictors.
   }
-  \item{collin}{
-    A real number in [-1, 1]. The correlation between the predictors (i.e., the
-    degree of collinearity).
+  \item{sigma}{
+    Either a numeric matrix giving the covariance matrix of the
+    predictor variables or a length-one numeric vector with value in
+    [-1.0, 1.0]. In the latter case, \code{sigma} gives the correlation
+    between the predictors (i.e., the degree of collinearity).
   }
   \item{beta}{
     An numeric matrix of regression coefficients with \code{dim(beta) =
@@ -44,7 +46,7 @@ simRegData(nObs,
   }
   \item{scales}{
     A numeric vector of predictor scales. Recycled, as necesssary, to match
-    \code{nPreds}.
+    \code{nPreds}. Ignored when \code{sigma} is a matrix.
   }
   \item{itemsPerPred}{
     An integer giving the number of observed items used to define each latent
@@ -73,10 +75,23 @@ simRegData(nObs,
   \code{\link{imposeMissData}}
 }
 \examples{
+
+## Specify 'sigma' as a full covariance matrix:
+sigma       <- matrix(0.3, 10, 10)
+diag(sigma) <- 1.0
+
 testData <- simRegData(nObs   = 100,
                        nPreds = 10,
                        r2     = 0.5,
-                       collin = 0.2,
+                       sigma  = sigma,
+                       beta   = matrix(c(0.25, rep(0.75, 10)))
+                       )
+
+## Specify 'sigma' as an inter-predictor correlation:
+testData <- simRegData(nObs   = 100,
+                       nPreds = 10,
+                       r2     = 0.5,
+                       sigma  = 0.2,
                        beta   = matrix(c(0.25, rep(0.75, 10)))
                        )
 }
