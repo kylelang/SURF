@@ -171,11 +171,14 @@ imposeMissData <- function(data, targets, preds, pm, snr, pattern = "random") {
     
     ## Impose MCAR missing:
     if(mechFlag["mcar"]) {
+        if(is.list(pm)) pm1 <- pm$mcar
+        else            pm1 <- pm
+        
         rMat <- matrix(
             as.logical(
                 rbinom(n    = prod(dim(data[ , targets$mcar])),
                        size = 1,
-                       prob = pm$mcar)
+                       prob = pm1)
             ),
             ncol = length(targets$mcar)
         )
@@ -190,11 +193,17 @@ imposeMissData <- function(data, targets, preds, pm, snr, pattern = "random") {
         
         if(any(is.na(linPred)))
             stop("MAR predictor matrix cannot have any entirely missing rows.")
-                                              
+
+        if(is.list(pm)) pm1 <- pm$mar
+        else            pm1 <- pm
+        
+        if(is.list(snr)) snr1 <- snr$mar
+        else             snr1 <- snr
+        
         for(i in targets$mar) {
             tmp <- makeRVec(linPred = linPred,
-                            pm      = pm$mar,
-                            snr     = snr$mar,
+                            pm      = pm1,
+                            snr     = snr1,
                             pattern = pattern[i])
             data[tmp$rVec, i] <- NA
             patOut[i]         <- tmp$pattern
@@ -203,10 +212,16 @@ imposeMissData <- function(data, targets, preds, pm, snr, pattern = "random") {
     
     ## Impose MNAR missing:
     if(mechFlag["mnar"]) {
+        if(is.list(pm)) pm1 <- pm$mar
+        else            pm1 <- pm
+        
+        if(is.list(snr)) snr1 <- snr$mar
+        else             snr1 <- snr
+
         for(i in targets$mnar) {
             tmp <- makeRVec(linPred = data[ , i],
-                            pm      = pm$mnar,
-                            snr     = snr$mnar,
+                            pm      = pm1,
+                            snr     = snr1,
                             pattern = pattern[i])
             data[tmp$rVec, i] <- NA
             patOut[i]         <- tmp$pattern
