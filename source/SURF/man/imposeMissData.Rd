@@ -40,21 +40,14 @@ imposeMissData(data,
     at random data, respectively. 
   }
   \item{pattern}{
-    A character vector indicating in what parts of the missing data
+    A (possibly named) character vector indicating in what parts of the missing data
     predictors' distributions MAR and MNAR missing data should be
-    imposed. Legal keywords are: \dQuote{low} = impose missing in the negative
-    tail of the predictor, \dQuote{high} = impose missing in the positive tail
-    of the predictor, \dQuote{center} = impose missing in the center of the
-    predictor, \dQuote{tails} = impose missing in both tails of the
-    predictor. The \code{pattern} arugment can also be the special
-    keyword \dQuote{random} which will cause the function to randomly
-    sample from the four preceding possiblities for each target
-    variable. 
+    imposed. See \emph{Details} section for more information.
   }
 }
 \details{
   MCAR missing data is imposed by generating a random Bernoulli flag variable
-  for each target variable with probablity of success equal to
+  for each target variable with probability of success equal to
   \code{pm$mcar}.
   
   MAR missing data is imposed via a noisy probit regression model
@@ -64,6 +57,20 @@ imposeMissData(data,
   MNAR missing data is imposed via the same procedure as MAR missing
   data but the missing data predictor is taken to be the target variable
   itself.
+
+  Legal keywords for the \code{pattern} argument are: \dQuote{low} =
+  impose missing in the negative tail of the predictor, \dQuote{high} =
+  impose missing in the positive tail of the predictor, \dQuote{center}
+  = impose missing in the center of the predictor, \dQuote{tails} =
+  impose missing, symmetrically, in both tails of the predictor,
+  \dQuote{random} = randomly sample from the previous four keywords.
+  
+  The \code{pattern} argument can be given as a length-one character
+  vector, in which case the specified keyword is applied to all
+  applicable variables. Otherwise, the \code{pattern} argument must be a
+  named vector with length equal to \code{length(c(targets$mar,
+  targets$mnar))} and names matching all elements of
+  \code{c(targets$mar, targets$mnar)}. 
 }
 \value{
   A two-element list with the following slots:
@@ -73,7 +80,7 @@ imposeMissData(data,
     }
     \item{pattern: }{
       A character vector showing which \code{pattern} was used for each
-      target varaible.
+      target variable.
     }
   }
 }

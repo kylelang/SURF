@@ -74,6 +74,22 @@ missData <- imposeMissData(data     = testData,
 
 colMeans(is.na(missData$data))
 
+missData <- imposeMissData(data     = testData,
+                           targets  = list(mar  = c("y", "x1"),
+                                           mcar = c("x2", "x3"),
+                                           mnar = c("x4", "x5")
+                                           ),
+                           preds   = c("x8", "x9", "x10"),
+                           pm      = 0.2,
+                           snr     = 2.5,
+                           pattern = c(y  = "low",
+                                       x5 = "random",
+                                       x1 = "center",
+                                       x4 = "tails")
+                           )
+
+colMeans(is.na(missData$data))
+
 ### plotImps ###
 
 data(testImps)

@@ -164,6 +164,12 @@ imposeMissData <- function(data, targets, preds, pm, snr, pattern = "random") {
         pattern        <- rep(pattern, length(c(targets$mar, targets$mnar)))
         names(pattern) <- c(targets$mar, targets$mnar)
     }
+    else {
+        check <- all(c(targets$mar, targets$mnar) %in% names(pattern))
+        
+        if(!check)
+            stop("Some elements in 'c(targets$mar, targets$mnar)' are not named in 'pattern'")
+    }
     
     ## Create a vector to hold patterns used:
     patOut        <- rep(NA, ncol(data))
