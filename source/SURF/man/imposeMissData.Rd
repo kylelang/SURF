@@ -90,11 +90,11 @@ imposeMissData(data,
 }
 \examples{
 ## Simulate some data:
-testData <- simRegData(nObs   = 100,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       sigma  = 0.2,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 100,
+                       nVars = 10,
+                       r2    = 0.5,
+                       sigma = 0.2,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 ## Impose missing data:

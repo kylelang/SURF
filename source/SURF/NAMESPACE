@@ -1,5 +1,6 @@
 export(plotImps,
        simRegData,
+       simCovData,
        imposeMissData,
        calcMode,
        rangeNorm,

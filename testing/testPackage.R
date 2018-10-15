@@ -9,11 +9,11 @@ library(SURF)
 
 ### simRegData ###
 
-testData <- simRegData(nObs   = 50000,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       sigma  = 0.2,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 50000,
+                       nVars = 10,
+                       r2    = 0.5,
+                       sigma = 0.2,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 summary(lm(testData[ , 1] ~ as.matrix(testData[ , -1])))
@@ -22,29 +22,36 @@ cor(testData[ , -1])
 sigma       <- matrix(0.35, 10, 10)
 diag(sigma) <- 1.0
 
-testData <- simRegData(nObs   = 50000,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       sigma  = sigma,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 50000,
+                       r2    = 0.5,
+                       sigma = sigma,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 summary(lm(testData[ , 1] ~ as.matrix(testData[ , -1])))
 cor(testData[ , -1])
 
+### simCovData ###
+testData <- simCovData(nObs = 50000, sigma = 0.5, nVars = 5, scales = 1.5)
+cor(testData)
+cov(testData)
+sqrt(diag(cov(testData)))
+
+head(testData)
+
 ### imposeMissData ###
 
-testData <- simRegData(nObs   = 500,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       collin = 0.2,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 500,
+                       nVars = 10,
+                       r2    = 0.5,
+                       sigma = 0.2,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 missData <- imposeMissData(data     = testData,
                            targets  = list(mar  = c("y", "x1"),
-                                           mcar = c("x2", "x3"),
-                                           mnar = c("x4", "x5")
+                                           mcar = c("x2", "x3")#,
+                                           #mnar = c("x4", "x5")
                                            ),
                            preds   = c("x8", "x9", "x10"),
                            pm      = list(mar = 0.2, mcar = 0.1, mnar = 0.1),

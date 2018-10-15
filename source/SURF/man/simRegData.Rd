@@ -8,10 +8,10 @@
 }
 \usage{
 simRegData(nObs,
-           nPreds,
            r2,
            sigma,
            beta,
+           nVars           = ncol(sigma),
            means           = 0.0,
            scales          = 1.0,
            itemsPerPred    = 1,
@@ -20,10 +20,6 @@ simRegData(nObs,
 \arguments{
   \item{nObs}{
     An integer giving the number of rows to simulate.
-  }
-  \item{nPreds}{
-    An integer giving the number of (possibly latent) predictor variables to
-    simulate. 
   }
   \item{r2}{
     A real number in [0, 1]. The R-Squared of the data generating model. That
@@ -38,15 +34,22 @@ simRegData(nObs,
   }
   \item{beta}{
     An numeric matrix of regression coefficients with \code{dim(beta) =
-      c(nPreds, 1)}. Note that the first element is taken to be the intercept.
+      c(nVars, 1)}. Note that the first element is taken to be the intercept.
+  }
+  \item{nVars}{
+    An integer giving the number of (possibly latent) predictor variables to
+    simulate. Defaults to \code{ncol(sigma)}.
   }
   \item{means}{
-    A numeric vector of predictor means. Recycled, as necesssary, to match
-    \code{nPreds}.
+    A numeric vector of predictor means. Recycled when
+    \code{length(means) = 1} to match \code{nVars}, otherwise
+    \code{length(means)} must equal \code{nVars}.
   }
   \item{scales}{
-    A numeric vector of predictor scales. Recycled, as necesssary, to match
-    \code{nPreds}. Ignored when \code{sigma} is a matrix.
+    A numeric vector of predictor scales. Recycled when
+    \code{length(scales) = 1} to match \code{nVars}, otherwise
+    \code{length(scales)} must equal \code{nVars}.
+    Ignored when \code{sigma} is a matrix.
   }
   \item{itemsPerPred}{
     An integer giving the number of observed items used to define each latent
@@ -60,38 +63,44 @@ simRegData(nObs,
     variance among each latent predictor's observed indicators.  
   }
 }
+\details{
+  If \code{sigma} is a length-one vector, a covariance matrix is constructed
+  from the values provided for \code{sigma} and \code{scales}. In this
+  case, \code{sigma} gives the \emph{correlation} between predictors
+  (not the covariance) and \code{scales} gives the predictors' standard
+  deviations.
+}
 \value{
-  An \code{nObs} by \code{nPreds * itemsPerPred + 1} data.frame of simluated
+  An \code{nObs} by \code{nVars * itemsPerPred + 1} data.frame of simulated
   data.
 }
 \note{
-  The column labels of the simluated data will be \code{c("y", paste0("x", c(1 :
-    nPreds * itemsPerPred)))}.
+  The column labels of the simulated data will be \code{c("y",
+    paste0("x", 1 : nVars * itemsPerPred))}.
 }
 \author{
   Kyle M. Lang
 }
 \seealso{
   \code{\link{imposeMissData}}
+  \code{\link{simCovData}}
 }
 \examples{
-
 ## Specify 'sigma' as a full covariance matrix:
 sigma       <- matrix(0.3, 10, 10)
 diag(sigma) <- 1.0
 
-testData <- simRegData(nObs   = 100,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       sigma  = sigma,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 100,
+                       r2    = 0.5,
+                       sigma = sigma,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 
 ## Specify 'sigma' as an inter-predictor correlation:
-testData <- simRegData(nObs   = 100,
-                       nPreds = 10,
-                       r2     = 0.5,
-                       sigma  = 0.2,
-                       beta   = matrix(c(0.25, rep(0.75, 10)))
+testData <- simRegData(nObs  = 100,
+                       nVars = 10,
+                       r2    = 0.5,
+                       sigma = 0.2,
+                       beta  = matrix(c(0.25, rep(0.75, 10)))
                        )
 }
